@@ -26,3 +26,4 @@
 | Fecha | Hecho |
 |---|---|
 | 2026-10-15 | Proyecto creado; arte de Gota trasladado; reposo funcionando en Godot |
+| 2026-10-15 | Aseprite compilado movido a `C:\Herramientas\Aseprite`; rutas actualizadas |

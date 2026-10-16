@@ -18,7 +18,7 @@
 
 ## Crear o cambiar animaciones de Gota
 
-Requisitos: Python 3, Brave y el Aseprite compilado (`C:\Users\Usuario\Documents\aseprite\build\bin\aseprite.exe`). Las rutas son relativas a la carpeta del proyecto.
+Requisitos: Python 3, Brave y el Aseprite compilado (`C:\Herramientas\Aseprite\aseprite.exe`). Las rutas son relativas a la carpeta del proyecto.
 
 1. **Dibujar:** añade o edita la animación en `PROPUESTAS` de `Arte/Gota/scripts/gota_hk.py` (`ciclo` en ms, `respiraciones`, `ojos` u `ojos_t`, `postura`, `pulso`, `bucle`…) y genera las propuestas:
    ```

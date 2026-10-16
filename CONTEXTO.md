@@ -62,4 +62,4 @@ Juego Gota/
 
 ## Entorno
 
-Windows 11, Godot 4.6.3, Aseprite compilado desde el código fuente (`C:\Users\Usuario\Documents\aseprite\build\bin\aseprite.exe`), Python 3.14 y Brave (para convertir SVG a PNG). Equipo con 8 GB de RAM y gráfica integrada.
+Windows 11, Godot 4.6.3, Aseprite compilado desde el código fuente, instalado en (`C:\Herramientas\Aseprite\aseprite.exe`), Python 3.14 y Brave (para convertir SVG a PNG). Equipo con 8 GB de RAM y gráfica integrada.

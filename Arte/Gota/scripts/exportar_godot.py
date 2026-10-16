@@ -13,7 +13,7 @@ import subprocess
 
 ARTE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROYECTO = os.path.dirname(os.path.dirname(ARTE))
-ASEPRITE = os.environ.get("ASEPRITE", r"C:\Users\Usuario\Documents\aseprite\build\bin\aseprite.exe")
+ASEPRITE = os.environ.get("ASEPRITE", r"C:\Herramientas\Aseprite\aseprite.exe")
 SPRITES = os.path.join(PROYECTO, "Assets", "Sprites", "Gota")
 RECURSO = os.path.join(PROYECTO, "Resources", "Gota", "gota_frames.tres")
 COLUMNAS = 8
