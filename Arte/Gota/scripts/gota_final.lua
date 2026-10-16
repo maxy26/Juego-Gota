@@ -14,6 +14,7 @@ spr.layers[1].name = "Gota"
 local f, rangos = 0, {}
 for _, anim in ipairs(manifiesto.animaciones) do
   for _, v in ipairs(anim.variantes) do
+    if v.aprobada == false then goto siguiente end
     local hoja = Image{ fromFile = app.fs.joinPath(dir, "revision", v.hoja) }
     local desde = f + 1
     for i = 0, v.n - 1 do
@@ -24,6 +25,7 @@ for _, anim in ipairs(manifiesto.animaciones) do
       spr.frames[f].duration = v.duraciones[i + 1] / 1000
     end
     rangos[#rangos+1] = { v.id, desde, f }
+    ::siguiente::
   end
 end
 -- Las etiquetas se crean al final: si no, crecen al añadir fotogramas detrás

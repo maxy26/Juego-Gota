@@ -9,11 +9,11 @@
 - [x] 8 animaciones de reposo aprobadas y montadas en `gota.aseprite` — 2026-10-15
 - [x] Proyecto de Godot con Gota en escena y la cadena de reposo funcionando — 2026-10-15
 - [x] Documentos de seguimiento (CONTEXTO, INSTRUCCIONES, AUDITORIA, PENDIENTES) — 2026-10-15
+- [x] Repositorio en GitHub: https://github.com/maxy26/Juego-Gota — 2026-10-15
 
 ## Próximo
 
-- [ ] 🔴 Subir el proyecto a GitHub (falta el repositorio)
-- [~] 🔴 Animación **caminar** (pasitos cortos) y movimiento del personaje en Godot
+- [~] 🔴 Animación **caminar** (pasitos cortos): propuestas A, B y C en la página de revisión; falta elegir. Después, movimiento del personaje en Godot
 - [ ] 🔴 Definir el tipo de escenario del juego (sin decidir; preguntar antes de asumir)
 - [ ] 🟡 Animaciones: saltar, aparición, recibir daño, derrota, victoria, movimiento rápido
 - [ ] 🟡 Animaciones de personalidad: en guardia, proteger, ayudar, impulso, explorar, determinación

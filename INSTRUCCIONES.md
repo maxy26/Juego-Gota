@@ -22,8 +22,9 @@ Requisitos: Python 3, Brave y el Aseprite compilado (`C:\Users\Usuario\Documents
 
 1. **Dibujar:** añade o edita la animación en `PROPUESTAS` de `Arte/Gota/scripts/gota_hk.py` (`ciclo` en ms, `respiraciones`, `ojos` u `ojos_t`, `postura`, `pulso`, `bucle`…) y genera las propuestas:
    ```
-   python -I Arte\Gota\scripts\gota_hk.py "Arte\Gota"
+   python -I Arte\Gota\scripts\gota_hk.py "Arte\Gota" caminar
    ```
+   El último argumento (opcional) genera solo las animaciones cuyo id empieza así y conserva las demás. Las propuestas nuevas llevan `aprobada: false` y no entran en el juego hasta marcarlas como aprobadas en `PROPUESTAS`.
 2. **Revisar:** arranca la página y ábrela en el navegador:
    ```
    python -I Arte\Gota\revision\servidor.py

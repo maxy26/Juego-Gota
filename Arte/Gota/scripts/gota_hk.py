@@ -143,6 +143,22 @@ def fotograma(v, t):
     P = dict(POSTURA, **v.get("postura", {}))
     giro = math.radians(v.get("angulo", 45))   # 0 = de frente; mira hacia la derecha
 
+    # Caminar en el sitio (el juego desplaza el nodo). fase: un ciclo = dos pasos
+    paso = {"paso": 0, "alto": 0, "rebote": 0, "inclinacion": 0, "braceo": 0, **v.get("caminar", {})}
+    fase = 2 * math.pi * t
+
+    def avance_pie(lado):
+        """Avance del pie a lo largo de la mirada y su altura (avanza mientras está en el aire)."""
+        ph = fase + (0 if lado < 0 else math.pi)
+        return -paso["paso"] * math.cos(ph), paso["alto"] * max(0.0, math.sin(ph))
+
+    def mover(x, y, avance):
+        """Desplaza un punto `avance` unidades en la dirección en la que mira."""
+        return x + avance * math.sin(giro), y + avance * math.cos(giro) * INCLINACION
+
+    rebote = -paso["rebote"] * (abs(math.sin(fase)) - 0.5)       # arriba al cruzar los pies
+    respira = (f"translate(0 {rebote:.3f}) rotate({paso['inclinacion']} {CX} {SUELO}) " + respira)
+
     def proyectar(az, radio, y):
         """Punto sobre la dirección az (rad, 0 = hacia la cámara) a cierta distancia del eje."""
         x = CX + radio * math.sin(az)
@@ -158,6 +174,9 @@ def fotograma(v, t):
         r0 = ancho_cuerpo(160)
         _, _, z = proyectar(az, r0, 160)
         xh, yh, _ = proyectar(az, r0 + mo, 160 + md)
+        # braceo: la mano va al contrario que el pie de su lado
+        xh, yh = mover(xh, yh, -avance_pie(lado)[0] * paso["braceo"] / max(paso["paso"], 1e-6)
+                       if paso["paso"] else 0)
         if z <= 0:
             # Mano lejana: asoma por detrás del borde de la silueta
             lado_x = 1 if math.sin(az) >= 0 else -1
@@ -172,6 +191,9 @@ def fotograma(v, t):
         sep, abre = P["piernaSep"], P["piernaAbre"]
         _, _, z = proyectar(az, sep, 199)
         xf, yf, _ = proyectar(az, sep + abre + 3, 213)
+        avance, alto = avance_pie(lado)
+        xf, yf = mover(xf, yf, avance)
+        yf -= alto
         trozo = f'<ellipse class="mano" cx="{xf:.2f}" cy="{yf:.2f}" rx="6" ry="4.2"/>'
         (pies_d if z > 0 else pies_t).append(trozo)
 
@@ -256,11 +278,31 @@ def sobresalto(t):
 
 
 def animacion(id_, nombre, descripcion, nota, **v):
+    v.setdefault("aprobada", True)
     return {"nombre": nombre, "descripcion": descripcion,
             "variantes": [dict(id=id_, nombre=nombre, nota=nota, **v)]}
 
 
+CAMINAR = {
+    "nombre": "Caminar",
+    "descripcion": "Pasitos cortos y firmes, en el sitio (el juego desplaza a Gota). "
+                   "Mira a la derecha; a la izquierda se refleja en espejo.",
+    "variantes": [
+        {"id": "caminar_a", "nombre": "A · Pasitos firmes", "ciclo": 800, "amplitud": 0.01,
+         "caminar": dict(paso=5, alto=4, rebote=2, inclinacion=3, braceo=4),
+         "nota": "Ritmo tranquilo y seguro: dos pasos cada 0,8 s, rebote suave y algo inclinada hacia delante."},
+        {"id": "caminar_b", "nombre": "B · Ligera y rápida", "ciclo": 640, "amplitud": 0.01,
+         "caminar": dict(paso=4, alto=5.5, rebote=3, inclinacion=4, braceo=3),
+         "nota": "Pasos más cortos y rápidos, levanta más los pies y rebota más: más ágil."},
+        {"id": "caminar_c", "nombre": "C · Decidida", "ciclo": 900, "amplitud": 0.01,
+         "caminar": dict(paso=7, alto=3.5, rebote=1.6, inclinacion=6, braceo=5.5),
+         "nota": "Pasos algo más largos, más inclinada y bracea más: avanza con determinación (valiente)."},
+    ],
+}
+
+
 PROPUESTAS = [
+    CAMINAR,
     animacion("reposo", "Reposo", "Idle normal. Expresión: seria con parpadeo.",
               "Respira dos veces cada 3,2 s y parpadea una vez.",
               ciclo=3200, respiraciones=2, ojos=PARPADEO),
@@ -299,14 +341,24 @@ PROPUESTAS = [
 
 
 def main():
-    base = sys.argv[1]
+    base = os.path.abspath(sys.argv[1])
     rev = os.path.join(base, "revision")
     carpeta = os.path.join(rev, "sprites")
     fuentes = os.path.join(base, "fuentes")
     os.makedirs(carpeta, exist_ok=True)
     os.makedirs(fuentes, exist_ok=True)
+    # Uso: gota_hk.py <carpeta Arte/Gota> [prefijo]  -> solo genera las animaciones
+    # cuyo id empieza por el prefijo y conserva el resto del manifiesto
+    prefijo = sys.argv[2] if len(sys.argv) > 2 else ""
+    ruta_manifiesto = os.path.join(rev, "manifest.json")
+    previas = []
+    if prefijo and os.path.exists(ruta_manifiesto):
+        with open(ruta_manifiesto, encoding="utf-8") as f:
+            previas = json.load(f)["animaciones"]
     animaciones = []
     for anim in PROPUESTAS:
+        if not anim["variantes"][0]["id"].startswith(prefijo):
+            continue
         variantes = []
         for v in anim["variantes"]:
             n = max(8, round(v["ciclo"] / MS_FOTOGRAMA))
@@ -318,11 +370,15 @@ def main():
             variantes.append({"id": v["id"], "nombre": v["nombre"], "nota": v["nota"],
                               "hoja": f"sprites/{v['id']}.png", "cols": COLS, "n": n,
                               "duraciones": [round(v["ciclo"] / n)] * n,
-                              "bucle": v.get("bucle", True)})
+                              "bucle": v.get("bucle", True),
+                              "aprobada": v.get("aprobada", False)})
             print("ok", v["id"], n, "fotogramas")
         animaciones.append({"nombre": anim["nombre"], "descripcion": anim["descripcion"],
                             "multiple": anim.get("multiple", False), "variantes": variantes})
-    with open(os.path.join(rev, "manifest.json"), "w", encoding="utf-8") as f:
+    # Las nuevas van primero en la página; las demás se conservan
+    nuevas = {v["id"] for a in animaciones for v in a["variantes"]}
+    animaciones += [a for a in previas if not any(v["id"] in nuevas for v in a["variantes"])]
+    with open(ruta_manifiesto, "w", encoding="utf-8") as f:
         json.dump({"tam": TAM, "escalaFuente": ESCALA, "suave": True,
                    "animaciones": animaciones}, f, ensure_ascii=False, indent=1)
 

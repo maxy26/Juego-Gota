@@ -4,6 +4,78 @@
  "suave": true,
  "animaciones": [
   {
+   "nombre": "Caminar",
+   "descripcion": "Pasitos cortos y firmes, en el sitio (el juego desplaza a Gota). Mira a la derecha; a la izquierda se refleja en espejo.",
+   "multiple": false,
+   "variantes": [
+    {
+     "id": "caminar_a",
+     "nombre": "A · Pasitos firmes",
+     "nota": "Ritmo tranquilo y seguro: dos pasos cada 0,8 s, rebote suave y algo inclinada hacia delante.",
+     "hoja": "sprites/caminar_a.png",
+     "cols": 8,
+     "n": 10,
+     "duraciones": [
+      80,
+      80,
+      80,
+      80,
+      80,
+      80,
+      80,
+      80,
+      80,
+      80
+     ],
+     "bucle": true,
+     "aprobada": false
+    },
+    {
+     "id": "caminar_b",
+     "nombre": "B · Ligera y rápida",
+     "nota": "Pasos más cortos y rápidos, levanta más los pies y rebota más: más ágil.",
+     "hoja": "sprites/caminar_b.png",
+     "cols": 8,
+     "n": 8,
+     "duraciones": [
+      80,
+      80,
+      80,
+      80,
+      80,
+      80,
+      80,
+      80
+     ],
+     "bucle": true,
+     "aprobada": false
+    },
+    {
+     "id": "caminar_c",
+     "nombre": "C · Decidida",
+     "nota": "Pasos algo más largos, más inclinada y bracea más: avanza con determinación (valiente).",
+     "hoja": "sprites/caminar_c.png",
+     "cols": 8,
+     "n": 11,
+     "duraciones": [
+      82,
+      82,
+      82,
+      82,
+      82,
+      82,
+      82,
+      82,
+      82,
+      82,
+      82
+     ],
+     "bucle": true,
+     "aprobada": false
+    }
+   ]
+  },
+  {
    "nombre": "Reposo",
    "descripcion": "Idle normal. Expresión: seria con parpadeo.",
    "multiple": false,
@@ -56,7 +128,8 @@
       82,
       82
      ],
-     "bucle": true
+     "bucle": true,
+     "aprobada": true
     }
    ]
   },
@@ -122,7 +195,8 @@
       83,
       83
      ],
-     "bucle": false
+     "bucle": false,
+     "aprobada": true
     }
    ]
   },
@@ -164,7 +238,8 @@
       83,
       83
      ],
-     "bucle": true
+     "bucle": true,
+     "aprobada": true
     }
    ]
   },
@@ -204,7 +279,8 @@
       82,
       82
      ],
-     "bucle": false
+     "bucle": false,
+     "aprobada": true
     }
    ]
   },
@@ -252,7 +328,8 @@
       83,
       83
      ],
-     "bucle": true
+     "bucle": true,
+     "aprobada": true
     }
    ]
   },
@@ -300,7 +377,8 @@
       83,
       83
      ],
-     "bucle": true
+     "bucle": true,
+     "aprobada": true
     }
    ]
   },
@@ -357,7 +435,8 @@
       82,
       82
      ],
-     "bucle": true
+     "bucle": true,
+     "aprobada": true
     }
    ]
   },
@@ -414,7 +493,8 @@
       82,
       82
      ],
-     "bucle": true
+     "bucle": true,
+     "aprobada": true
     }
    ]
   }

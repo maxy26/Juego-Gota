@@ -26,7 +26,7 @@ def res(ruta):
 def main():
     with open(os.path.join(ARTE, "revision", "manifest.json"), encoding="utf-8") as f:
         manifiesto = json.load(f)
-    animaciones = [v for a in manifiesto["animaciones"] for v in a["variantes"]]
+    animaciones = [v for a in manifiesto["animaciones"] for v in a["variantes"] if v.get("aprobada", True)]
     os.makedirs(SPRITES, exist_ok=True)
     os.makedirs(os.path.dirname(RECURSO), exist_ok=True)
 
