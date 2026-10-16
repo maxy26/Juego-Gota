@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Gota/gota.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://Resources/Gota/gota_frames.tres" id="2_frames"]
+
+[sub_resource type="CapsuleShape2D" id="Capsula"]
+radius = 30.0
+height = 112.0
+
+[node name="Gota" type="CharacterBody2D"]
+script = ExtResource("1_script")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+sprite_frames = ExtResource("2_frames")
+animation = &"reposo"
+offset = Vector2(0, -184)
+
+[node name="Colision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -60)
+shape = SubResource("Capsula")

@@ -1,0 +1,9 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Arte: archivos que se regeneran con los scripts de Arte/*/scripts
+Arte/*/fuentes/
+Arte/*/revision/sprites/
+Arte/*/revision/opiniones.json
+__pycache__/
